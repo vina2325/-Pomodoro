@@ -12,7 +12,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "alarms/03.mp3"
   },
   {
-    "revision": "2a5442c7b6f77121c7e5",
+    "revision": "3d1ee60c6d2460ee97ba",
     "url": "css/app.4e477a09.css"
   },
   {
@@ -476,12 +476,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "img/icon/safari-pinned-tab.svg"
   },
   {
-    "revision": "930ee255c9cae3791bf5cfc3f3325898",
+    "revision": "96723cb3e23ea6dc0229f31b51dcda92",
     "url": "index.html"
   },
   {
-    "revision": "2a5442c7b6f77121c7e5",
-    "url": "js/app.1e2e8e88.js"
+    "revision": "3d1ee60c6d2460ee97ba",
+    "url": "js/app.45b14b52.js"
   },
   {
     "revision": "f5cbd49d5a8da8a9a117",
