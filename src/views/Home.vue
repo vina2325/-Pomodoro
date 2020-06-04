@@ -1,71 +1,78 @@
-<template>
-  <div id="home">
-    <h1>{{ currentText }}</h1>
-    <h2>{{ timetext }}</h2>
-    <b-btn variant="primary" v-if="status != 1" @click="start">
-      <font-awesome-icon :icon="['fas', 'play']"></font-awesome-icon>
-    </b-btn>
-    <b-btn variant="primary" v-if="status == 1" @click="pause">
-      <font-awesome-icon :icon="['fas', 'pause']"></font-awesome-icon>
-    </b-btn>
-    <b-btn variant="primary" v-if="current.length > 0 || todos.length > 0">
-      <font-awesome-icon :icon="['fas', 'step-forward']"></font-awesome-icon>
-    </b-btn>
-  </div>
+<template lang="pug">
+  #home.text-center
+    h1 番茄鐘
+    hr.bg-white
+    h1
+      font-awesome-icon(:icon="['fas', 'pause']" @click="pause" v-if="status === 'counting'")
+      font-awesome-icon(:icon="['fas', 'play']" @click="start" v-else)
+      | &emsp;
+      font-awesome-icon(:icon="['fas', 'step-forward']" @click="finish(true)" v-if="status !== ''")
+    img.w-50(:src="'./img/icon/hourglass.svg'")
+    br
+    h2 {{ currentText }}
+    h2#time {{ timetext }}
 </template>
 
 <script>
 export default {
+  name: 'Home',
   data () {
     return {
-      // 0 = 停止
-      // 1 = 播放
-      // 2 = 暫停
-      status: 0,
-      timer: 0
+      timer: 0,
+      status: ''
     }
   },
   computed: {
-    currentText () {
-      return this.current.length > 0 ? this.current : this.todos.length > 0 ? '點擊開始' : '沒有事項'
-    },
     timetext () {
       const m = Math.floor(this.timeleft / 60)
       const s = Math.floor(this.timeleft % 60)
       return `${m} : ${s}`
     },
-    alarm () {
-      return this.$store.getters.alarm
-    },
-    timeleft () {
-      return this.$store.getters.timeleft
+    currentText () {
+      return this.current.length > 0
+        ? this.current
+        : this.todos.length > 0
+          ? '點擊開始'
+          : '沒有事項'
     },
     current () {
       return this.$store.getters.current
     },
+    timeleft: {
+      get () {
+        return this.$store.getters.timeleft
+      },
+      set (value) {
+        this.$store.commit('setTimeleft', value)
+      }
+    },
     todos () {
       return this.$store.getters.todos
+    },
+    alarmSelected () {
+      return this.$store.getters.alarmSelected
+    },
+    isbreak () {
+      return this.$store.getters.isbreak
     }
   },
   methods: {
     start () {
-      if (this.status === 2) {
-        // 暫停後繼續
-        this.status = 1
+      if (this.status === 'pause') {
+        this.status = 'counting'
         this.timer = setInterval(() => {
-          this.$store.commit('countdown')
-          if (this.timeleft <= 0) {
+          this.timeleft--
+          if (this.timeleft < 0) {
             this.finish(false)
           }
         }, 1000)
       } else {
-        // 開始新倒數
-        if (this.todos.length > 0) {
+        if (this.todos.length > 0 || this.current.length > 0) {
           this.$store.commit('start')
-          this.status = 1
+          this.status = 'counting'
           this.timer = setInterval(() => {
-            this.$store.commit('countdown')
-            if (this.timeleft <= 0) {
+            this.timeleft--
+            if (this.timeleft < 0) {
               this.finish(false)
             }
           }, 1000)
@@ -74,24 +81,30 @@ export default {
     },
     finish (skip) {
       clearInterval(this.timer)
-      this.status = 0
+      this.status = ''
       this.$store.commit('finish')
-
       if (!skip) {
         const audio = new Audio()
-        audio.src = './alarms/' + this.alarm
+        audio.src = this.alarmSelected
         audio.play()
       }
-
       if (this.todos.length > 0) {
         this.start()
       } else {
-        alert('結束')
+        this.$swal({
+          icon: 'success',
+          title: '結束',
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: 'btn btn-success mx-1',
+            cancelButton: 'btn btn-danger mx-1'
+          }
+        })
       }
     },
     pause () {
       clearInterval(this.timer)
-      this.status = 2
+      this.status = 'pause'
     }
   }
 }
