@@ -1,111 +1,134 @@
-<template lang="pug">
-  #home.text-center
-    h1 番茄鐘
-    hr.bg-white
-    h1
-      font-awesome-icon(:icon="['fas', 'pause']" @click="pause" v-if="status === 'counting'")
-      font-awesome-icon(:icon="['fas', 'play']" @click="start" v-else)
-      | &emsp;
-      font-awesome-icon(:icon="['fas', 'step-forward']" @click="finish(true)" v-if="status !== ''")
-    img.w-50(:src="'./img/icon/hourglass.svg'")
-    br
-    h2 {{ currentText }}
-    h2#time {{ timetext }}
+<template>
+  <div id="home" class="text-center">
+    <template>
+      <div id="radial-progress">
+        <radial-progress-bar :diameter="300" :completed-steps="completedSteps" :start-color="startColor" :stop-color="stopColor" :total-steps="totalSteps" :innerStrokeColor="innerStrokeColor" :stroke-width="20" :inner-stroke-width="20" :isClockwise="true" :strokeLinecap="butt">
+
+        <img :src="'./img/giphy01.gif'" width="200px" id="tomotoimg" v-if="status==1" @click="pause" >
+
+        </radial-progress-bar>
+      </div>
+    </template>
+    <h1>{{currentText}}</h1>
+    <h2>{{timetext}}</h2>
+    <!-- 在不等於1的狀態下 start 鍵 都要出現 -->
+    <b-btn variant="danger" v-if="status !==1" @click="start" class="btn">
+      <font-awesome-icon :icon="['fas','play']" ></font-awesome-icon>
+    </b-btn>
+    <b-btn variant="danger" v-if="status==1" @click="pause" class="btn">
+      <font-awesome-icon :icon="['fas','pause']" ></font-awesome-icon>
+    </b-btn>
+    <!-- 如果目前有東西在倒數  或是 todos裡面有東西-->
+    <b-btn variant="danger" v-if="current.length > 0||todos.length > 0" @click="finish(true)" class="btn">
+      <font-awesome-icon :icon="['fas','step-forward']" ></font-awesome-icon>
+    </b-btn>
+  </div>
 </template>
 
 <script>
+
 export default {
-  name: 'Home',
   data () {
     return {
+      // 使用狀態
+      // 0 ==停止
+      // 2 ==暫停
+      // 1 ==播放
+      status: 0,
+      // 因為 setInterval
       timer: 0,
-      status: ''
+      startColor: 'var(--color04)',
+      stopColor: 'var(--color04)',
+      innerStrokeColor: 'var(--color02)'
+
     }
   },
   computed: {
+    currentText () {
+      return this.current.length > 0 ? this.current : this.todos.length > 0 ? '點擊開始' : '沒有事項'
+    },
     timetext () {
       const m = Math.floor(this.timeleft / 60)
       const s = Math.floor(this.timeleft % 60)
       return `${m} : ${s}`
     },
-    currentText () {
-      return this.current.length > 0
-        ? this.current
-        : this.todos.length > 0
-          ? '點擊開始'
-          : '沒有事項'
+    alarm () {
+      return this.$store.getters.alarm
+    },
+    timeleft () {
+      return this.$store.getters.timeleft
     },
     current () {
       return this.$store.getters.current
     },
-    timeleft: {
-      get () {
-        return this.$store.getters.timeleft
-      },
-      set (value) {
-        this.$store.commit('setTimeleft', value)
-      }
-    },
     todos () {
       return this.$store.getters.todos
     },
-    alarmSelected () {
-      return this.$store.getters.alarmSelected
+    isBreak () {
+      return this.$store.getters.isBreak
     },
-    isbreak () {
-      return this.$store.getters.isbreak
+    // 讓 totalSteps 等於全部的時間
+    totalSteps () {
+      return this.$store.getters.totaltime
+    },
+    // 讓全部的時間 減 剩餘時間 就是已完成
+    completedSteps () {
+      return this.totalSteps - this.timeleft
     }
   },
   methods: {
     start () {
-      if (this.status === 'pause') {
-        this.status = 'counting'
+      if (this.status === 2) {
+        // 暫停後繼續
+        // 2 ==暫停
+        // 1 ==播放
+        // 0 ==停止
+        this.status = 1
         this.timer = setInterval(() => {
-          this.timeleft--
-          if (this.timeleft < 0) {
+          this.$store.commit('countdown')
+          if (this.timeleft <= 0) {
             this.finish(false)
           }
         }, 1000)
       } else {
-        if (this.todos.length > 0 || this.current.length > 0) {
+        // 開始新倒數
+        if (this.todos.length > 0) {
           this.$store.commit('start')
-          this.status = 'counting'
+          this.status = 1
           this.timer = setInterval(() => {
-            this.timeleft--
-            if (this.timeleft < 0) {
+            this.$store.commit('countdown')
+            if (this.timeleft <= 0) {
               this.finish(false)
             }
           }, 1000)
         }
       }
     },
+
     finish (skip) {
+      // 跳過
       clearInterval(this.timer)
-      this.status = ''
-      this.$store.commit('finish')
-      if (!skip) {
-        const audio = new Audio()
-        audio.src = this.alarmSelected
-        audio.play()
-      }
-      if (this.todos.length > 0) {
-        this.start()
-      } else {
-        this.$swal({
-          icon: 'success',
-          title: '結束',
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: 'btn btn-success mx-1',
-            cancelButton: 'btn btn-danger mx-1'
-          }
-        })
-      }
+      setTimeout(() => {
+        this.status = 0
+        this.$store.commit('finish')
+        // 正常結束
+        if (!skip) {
+          const audio = new Audio()
+          audio.src = './alarms/' + this.alarm
+          audio.play()
+        }
+        if (this.todos.length > 0) {
+          this.start()
+        } else {
+          alert('結束')
+        }
+      }, 1000)
     },
     pause () {
       clearInterval(this.timer)
-      this.status = 'pause'
+      this.status = 2
     }
   }
+
 }
 </script>

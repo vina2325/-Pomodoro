@@ -11,7 +11,7 @@ export default new Vuex.Store({
   state: {
     todos: [],
     // 預設時間
-    timeleft: parseInt(process.env.VUE_APP_TIMELEFT),
+    timeleft: timeleft,
     // 選擇鈴聲檔案的名字
     alarm: '01.wav',
     current: '',
@@ -80,6 +80,9 @@ export default new Vuex.Store({
     },
     isBreak (state) {
       return state.isBreak
+    },
+    totaltime (state) {
+      return state.isBreak ? timeleftBreak : timeleft
     }
   },
   plugins: [createPersistedState()]

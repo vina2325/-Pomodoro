@@ -1,9 +1,10 @@
 :root{
-    --color01:#7FD785 !important;
-    --color02:#548C00 !important;
-    --color03:#3BBF65 !important;
+    --color01:rgb(154, 240, 159) !important;
+    --color02:rgb(48, 143, 35) !important;
+    --color03:rgb(38, 83, 52) !important;
     --color04:white !important;
     --color05:black !important;
+    --color06:rgb(209, 83, 74) !important;
 
     --black25:rgba(0,0,0,0.25)!important;
     --black50:rgba(0,0,0,0.5)!important;
@@ -14,9 +15,12 @@
     --white75:rgba(255,255,255,0.75)!important;
 }
 
+
 html,body{
     height: 100%;
+    font-family: var((--font-family-sans-serif), 'Noto Sans TC');
 }
+
 
 #app{
     height: 100%;
@@ -33,3 +37,22 @@ html,body{
     font-size: 2.2rem;
 }
 
+/* home */
+#radial-progress{
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+#home .btn{
+    width: 50px;
+    margin: 0.5rem;
+}
+
+#home h1 {
+    color: var(--color03);
+}
+
+#home h2 {
+    color: var(--color03);
+}
