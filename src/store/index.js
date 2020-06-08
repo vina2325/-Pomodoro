@@ -18,6 +18,26 @@ export default new Vuex.Store({
     // 判斷番茄鐘是否休息
     isBreak: false
   },
+  getters: {
+    alarm (state) {
+      return state.alarm
+    },
+    todos (state) {
+      return state.todos
+    },
+    timeleft (state) {
+      return state.timeleft
+    },
+    current (state) {
+      return state.current
+    },
+    isBreak (state) {
+      return state.isBreak
+    },
+    totaltime (state) {
+      return state.isBreak ? timeleftBreak : timeleft
+    }
+  },
   mutations: {
     selectAlarm (state, data) {
       state.alarm = data
@@ -64,26 +84,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-  },
-  getters: {
-    alarm (state) {
-      return state.alarm
-    },
-    todos (state) {
-      return state.todos
-    },
-    timeleft (state) {
-      return state.timeleft
-    },
-    current (state) {
-      return state.current
-    },
-    isBreak (state) {
-      return state.isBreak
-    },
-    totaltime (state) {
-      return state.isBreak ? timeleftBreak : timeleft
-    }
   },
   plugins: [createPersistedState()]
 })

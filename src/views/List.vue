@@ -1,6 +1,6 @@
 <template>
     <div id="list">
-        <b-form-input v-model="newtodo"></b-form-input>
+        <b-form-input v-model="newtodo" @keydown.enter="addTodo"></b-form-input>
         <b-btn variant="success" @click="addTodo">新增</b-btn>
         <b-table-simple>
           <b-thead>
@@ -55,6 +55,7 @@ export default {
   methods: {
     addTodo () {
       this.$store.commit('addTodo', this.newtodo)
+      this.newtodo = ''
     },
     delTodo (index) {
       this.$store.commit('delTodo', index)

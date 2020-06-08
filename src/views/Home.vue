@@ -2,8 +2,8 @@
   <div id="home" class="text-center">
     <template>
       <div id="radial-progress">
-        <radial-progress-bar :diameter="300" :completed-steps="completedSteps" :start-color="startColor" :stop-color="stopColor" :total-steps="totalSteps" :innerStrokeColor="innerStrokeColor" :stroke-width="20" :inner-stroke-width="20" :isClockwise="true" :strokeLinecap="butt">
-
+        <radial-progress-bar :diameter="300" :completed-steps="completedSteps" :start-color="startColor" :stop-color="stopColor" :total-steps="totalSteps" :innerStrokeColor="innerStrokeColor" :stroke-width="20" :inner-stroke-width="20" :isClockwise="true" >
+<!-- :strokeLinecap="butt" -->
         <img :src="'./img/giphy01.gif'" width="200px" id="tomotoimg" v-if="status==1" @click="pause" >
 
         </radial-progress-bar>
@@ -82,7 +82,6 @@ export default {
         // 暫停後繼續
         // 2 ==暫停
         // 1 ==播放
-        // 0 ==停止
         this.status = 1
         this.timer = setInterval(() => {
           this.$store.commit('countdown')
@@ -92,8 +91,17 @@ export default {
         }, 1000)
       } else {
         // 開始新倒數
+        // if (this.todos.length > 0) {
+        //   this.$store.commit('start')
+        //   this.status = 1
+        //   this.timer = setInterval(() => {
+        //     this.$store.commit('countdown')
+        //     if (this.timeleft <= 0) {
+        //       this.finish(false)
+        //     }
+        //   }, 1000)
+        // }
         if (this.todos.length > 0) {
-          this.$store.commit('start')
           this.status = 1
           this.timer = setInterval(() => {
             this.$store.commit('countdown')
@@ -101,6 +109,7 @@ export default {
               this.finish(false)
             }
           }, 1000)
+          this.$store.commit('start')
         }
       }
     },
