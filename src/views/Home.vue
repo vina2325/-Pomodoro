@@ -2,10 +2,25 @@
   <div id="home" class="text-center">
     <template>
       <div id="radial-progress">
-        <radial-progress-bar :diameter="300" :completed-steps="completedSteps" :start-color="startColor" :stop-color="stopColor" :total-steps="totalSteps" :innerStrokeColor="innerStrokeColor" :stroke-width="20" :inner-stroke-width="20" :isClockwise="true" >
-<!-- :strokeLinecap="butt" -->
-        <img :src="'./img/giphy01.gif'" width="200px" id="tomotoimg" v-if="status==1" @click="pause" >
-
+        <radial-progress-bar
+          :diameter="300"
+          :completed-steps="completedSteps"
+          :start-color="startColor"
+          :stop-color="stopColor"
+          :total-steps="totalSteps"
+          :innerStrokeColor="innerStrokeColor"
+          :stroke-width="20"
+          :inner-stroke-width="20"
+          :isClockwise="true"
+        >
+          <!-- :strokeLinecap="butt" -->
+          <img
+            :src="'./img/giphy01.gif'"
+            width="200px"
+            id="tomotoimg"
+            v-if="status==1"
+            @click="pause"
+          />
         </radial-progress-bar>
       </div>
     </template>
@@ -13,19 +28,25 @@
     <h2>{{timetext}}</h2>
     <!-- 在不等於1的狀態下 start 鍵 都要出現 -->
     <b-btn variant="danger" v-if="status !==1" @click="start" class="btn">
-      <font-awesome-icon :icon="['fas','play']" ></font-awesome-icon>
+      <font-awesome-icon :icon="['fas','play']"></font-awesome-icon>
     </b-btn>
     <b-btn variant="danger" v-if="status==1" @click="pause" class="btn">
-      <font-awesome-icon :icon="['fas','pause']" ></font-awesome-icon>
+      <font-awesome-icon :icon="['fas','pause']"></font-awesome-icon>
     </b-btn>
     <!-- 如果目前有東西在倒數  或是 todos裡面有東西-->
-    <b-btn variant="danger" v-if="current.length > 0||todos.length > 0" @click="finish(true)" class="btn">
-      <font-awesome-icon :icon="['fas','step-forward']" ></font-awesome-icon>
+    <b-btn
+      variant="danger"
+      v-if="current.length > 0||todos.length > 0"
+      @click="finish(true)"
+      class="btn"
+    >
+      <font-awesome-icon :icon="['fas','step-forward']"></font-awesome-icon>
     </b-btn>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 
 export default {
   data () {
@@ -40,12 +61,15 @@ export default {
       startColor: 'var(--color04)',
       stopColor: 'var(--color04)',
       innerStrokeColor: 'var(--color02)'
-
     }
   },
   computed: {
     currentText () {
-      return this.current.length > 0 ? this.current : this.todos.length > 0 ? '點擊開始' : '沒有事項'
+      return this.current.length > 0
+        ? this.current
+        : this.todos.length > 0
+          ? '點擊開始'
+          : '沒有事項'
     },
     timetext () {
       const m = Math.floor(this.timeleft / 60)
@@ -110,6 +134,7 @@ export default {
             }
           }, 1000)
           this.$store.commit('start')
+          $('radial-progress-bar').addClass('transtion-zero')
         }
       }
     },
@@ -117,6 +142,7 @@ export default {
     finish (skip) {
       // 跳過
       clearInterval(this.timer)
+      // 增加class
       setTimeout(() => {
         this.status = 0
         this.$store.commit('finish')
@@ -138,6 +164,5 @@ export default {
       this.status = 2
     }
   }
-
 }
 </script>

@@ -5,7 +5,6 @@ import './plugins/bootstrap-vue'
 
 import './style/style.css'
 import 'noto-sans-tc/noto_sans_tc_regular/css.css'
-
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'

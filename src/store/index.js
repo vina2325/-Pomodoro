@@ -74,7 +74,7 @@ export default new Vuex.Store({
       state.timeleft--
     },
     finish (state) {
-      if (state.todos.lenght > 0) {
+      if (state.todos.length > 0) {
         state.isBreak = !state.isBreak
       }
       state.current = ''

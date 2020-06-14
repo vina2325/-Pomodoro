@@ -30,6 +30,10 @@ html,body{
     justify-content: space-between;
 }
 
+.transtion-zero{
+    transition: 0s;
+}
+
 #nav{
     display: flex;
     justify-content: space-around;
