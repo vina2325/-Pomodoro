@@ -60,3 +60,7 @@ html,body{
 #home h2 {
     color: var(--color03);
 }
+
+#radial-progress img{
+    cursor: pointer;
+}

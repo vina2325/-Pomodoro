@@ -12,6 +12,7 @@
           :stroke-width="20"
           :inner-stroke-width="20"
           :isClockwise="true"
+          :animateSpeed="0"
         >
           <!-- :strokeLinecap="butt" -->
           <img
@@ -20,6 +21,13 @@
             id="tomotoimg"
             v-if="status==1"
             @click="pause"
+          />
+          <img
+            :src="'./img/giphy01.png'"
+            width="200px"
+            id="tomotoimg"
+            v-if="status==2"
+            @click="start"
           />
         </radial-progress-bar>
       </div>
@@ -134,7 +142,8 @@ export default {
             }
           }, 1000)
           this.$store.commit('start')
-          $('radial-progress-bar').addClass('transtion-zero')
+          // $('radial-progress-bar').addClass('transtion-zero')
+          $('radial-progress-bar').css('transition', 'none')
         }
       }
     },
