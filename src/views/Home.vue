@@ -26,6 +26,12 @@
             :src="'./img/giphy01.png'"
             width="200px"
             id="tomotoimg"
+            v-if="status==0"
+          />
+          <img
+            :src="'./img/giphy01.png'"
+            width="200px"
+            id="tomotoimg"
             v-if="status==2"
             @click="start"
           />
@@ -54,7 +60,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 
 export default {
   data () {
@@ -86,6 +92,9 @@ export default {
     },
     alarm () {
       return this.$store.getters.alarm
+    },
+    alarm1 () {
+      return this.$store.getters.alarm1
     },
     timeleft () {
       return this.$store.getters.timeleft
@@ -133,8 +142,14 @@ export default {
         //     }
         //   }, 1000)
         // }
+
         if (this.todos.length > 0) {
           this.status = 1
+          if (this.timeleft === 5) {
+            const audio = new Audio()
+            audio.src = './alarms/start/' + this.alarm1
+            audio.play()
+          }
           this.timer = setInterval(() => {
             this.$store.commit('countdown')
             if (this.timeleft <= 0) {
@@ -143,7 +158,7 @@ export default {
           }, 1000)
           this.$store.commit('start')
           // $('radial-progress-bar').addClass('transtion-zero')
-          $('radial-progress-bar').css('transition', 'none')
+          // $('radial-progress-bar').css('transition', 'none')
         }
       }
     },
@@ -151,14 +166,13 @@ export default {
     finish (skip) {
       // 跳過
       clearInterval(this.timer)
-      // 增加class
       setTimeout(() => {
         this.status = 0
         this.$store.commit('finish')
         // 正常結束
         if (!skip) {
           const audio = new Audio()
-          audio.src = './alarms/' + this.alarm
+          audio.src = './alarms/rest/' + this.alarm
           audio.play()
         }
         if (this.todos.length > 0) {

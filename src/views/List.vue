@@ -1,7 +1,7 @@
 <template>
     <div id="list">
         <b-form-input v-model="newtodo" @keydown.enter="addTodo"></b-form-input>
-        <b-btn variant="success" @click="addTodo">新增</b-btn>
+        <b-btn id="btn-add" @click="addTodo">新增</b-btn>
         <b-table-simple>
           <b-thead>
             <b-tr>

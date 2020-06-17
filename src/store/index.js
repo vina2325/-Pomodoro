@@ -13,7 +13,8 @@ export default new Vuex.Store({
     // 預設時間
     timeleft: timeleft,
     // 選擇鈴聲檔案的名字
-    alarm: '01.wav',
+    alarm: 'rest01.wav',
+    alarm1: 'start01.wav',
     current: '',
     // 判斷番茄鐘是否休息
     isBreak: false
@@ -21,6 +22,9 @@ export default new Vuex.Store({
   getters: {
     alarm (state) {
       return state.alarm
+    },
+    alarm1 (state) {
+      return state.alarm1
     },
     todos (state) {
       return state.todos
@@ -41,6 +45,9 @@ export default new Vuex.Store({
   mutations: {
     selectAlarm (state, data) {
       state.alarm = data
+    },
+    selectAlarm1 (state, data) {
+      state.alarm1 = data
     },
     addTodo (state, data) {
       state.todos.push({ name: data, edit: false, model: data })

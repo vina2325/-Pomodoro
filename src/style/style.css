@@ -64,3 +64,22 @@ html,body{
 #radial-progress img{
     cursor: pointer;
 }
+
+#settings h3{
+    text-align: center;
+    color: #fff;
+    background: var(--color03);
+}
+
+#player1{
+    width: 100%;
+
+}
+
+#player2{
+    width: 100%;
+}
+
+#btn-add{
+    background-color: var(--color02);
+}
