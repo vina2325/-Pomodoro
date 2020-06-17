@@ -1,6 +1,6 @@
 <template>
     <div id="settings">
-        <h3>開始鬧鈴</h3>
+        <h4>開始鬧鈴</h4>
         <b-table :items="items02" :fields="fields02" @row-clicked="selectAlarm1">
             <template v-slot:cell(preview)="data">
               <audio id="player1" controls :src="'./alarms/start/'+data.item.file"></audio>
@@ -10,7 +10,7 @@
               </font-awesome-icon>
             </template>
         </b-table>
-        <h3>休息鬧鈴</h3>
+        <h4>休息鬧鈴</h4>
         <b-table :items="items" :fields="fields" @row-clicked="selectAlarm">
             <template v-slot:cell(preview)="data">
                 <audio id="player2" controls :src="'./alarms/rest/'+data.item.file"></audio>
@@ -56,12 +56,12 @@ export default {
       items02: [
         {
 
-          name: 'start01',
+          name: 'start1',
           file: 'start01.wav'
         },
         {
 
-          name: 'start02',
+          name: 'start2',
           file: 'start02.mp3'
         }
       ],

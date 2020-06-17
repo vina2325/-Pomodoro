@@ -145,7 +145,7 @@ export default {
 
         if (this.todos.length > 0) {
           this.status = 1
-          if (this.timeleft === 5) {
+          if (this.timeleft === parseInt(process.env.VUE_APP_TIMELEFT)) {
             const audio = new Audio()
             audio.src = './alarms/start/' + this.alarm1
             audio.play()
@@ -170,7 +170,7 @@ export default {
         this.status = 0
         this.$store.commit('finish')
         // 正常結束
-        if (!skip) {
+        if (!skip && this.timeleft === parseInt(process.env.VUE_APP_TIMELEFT_BREAK)) {
           const audio = new Audio()
           audio.src = './alarms/rest/' + this.alarm
           audio.play()

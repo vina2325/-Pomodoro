@@ -15,11 +15,12 @@
     --white75:rgba(255,255,255,0.75)!important;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&family=Noto+Serif+TC:wght@600&display=swap');
 
 html,body{
     height: 100%;
-    font-family: var((--font-family-sans-serif), 'Noto Sans TC');
-}
+    font-family: 'Noto Sans TC', sans-serif;
+font-family: 'Noto Serif TC', serif;}
 
 
 #app{
@@ -65,21 +66,37 @@ html,body{
     cursor: pointer;
 }
 
-#settings h3{
+#settings{
     text-align: center;
+}
+
+#settings h4{
     color: #fff;
-    background: var(--color03);
+    background: var(--color06);
+    padding: 0.3rem;
+    display: inline-block;
+    margin: 0.4rem;
 }
 
 #player1{
-    width: 100%;
+    width: 120%;
 
 }
 
 #player2{
-    width: 100%;
+    width: 120%;
 }
 
 #btn-add{
     background-color: var(--color02);
+}
+
+.table td,.table th{
+text-align:center;
+}
+
+#settings .table thead th{
+    background-color:var(--color02);
+    border: none;
+    color: var(--color04);
 }
