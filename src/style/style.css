@@ -66,16 +66,13 @@ font-family: 'Noto Serif TC', serif;}
     cursor: pointer;
 }
 
-#settings{
+#settings h3{
     text-align: center;
 }
 
 #settings h4{
     color: #fff;
-    background: var(--color06);
-    padding: 0.3rem;
-    display: inline-block;
-    margin: 0.4rem;
+    background: var(--color03);
 }
 
 #player1{
