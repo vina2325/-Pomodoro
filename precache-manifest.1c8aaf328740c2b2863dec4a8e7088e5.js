@@ -428,6 +428,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "img/giphy01.png"
   },
   {
+    "revision": "b0f1855746e5be4ece8dfe9cfafaf064",
+    "url": "img/手機模擬-01.jpg"
+  },
+  {
     "revision": "707fc58cb92ee44dd324022723e5f399",
     "url": "index.html"
   },
