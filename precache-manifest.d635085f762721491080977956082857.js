@@ -432,6 +432,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "img/手機模擬-01.jpg"
   },
   {
+    "revision": "83f30695c3435e1ac5d8516f58f2c118",
+    "url": "img/手機模擬-01.png"
+  },
+  {
     "revision": "707fc58cb92ee44dd324022723e5f399",
     "url": "index.html"
   },
