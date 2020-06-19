@@ -1,7 +1,11 @@
 <template>
     <div id="list">
-        <b-form-input v-model="newtodo" @keydown.enter="addTodo"></b-form-input>
+      <div class="p-2 h-auto m-auto">
+        <div class="row flex-nowrap container-fluid">
+        <b-form-input v-model="newtodo" @keydown.enter="addTodo" placeholder="...輸入代辦事項"></b-form-input>
         <b-btn id="btn-add" @click="addTodo">新增</b-btn>
+        </div>
+      </div>
         <b-table-simple>
           <b-thead>
             <b-tr>
